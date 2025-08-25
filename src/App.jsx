@@ -110,7 +110,7 @@ function App() {
             if (user) setModalOpen(true);
             else navigate('/login');
           }}
-          className='fixed bg-blue-500 cursor-pointer right-10 bottom-10 w-[50px] h-[60px] md:w-[60px] md:h-[70px] text-white font-semibold text-[35px] md:text-[40px] flex justify-center rounded-full'>
+          className='fixed bg-blue-500 cursor-pointer right-10 bottom-10 w-[50px] h-[60px] sm:h-[50px] md:w-[60px] md:h-[70px] text-white font-semibold text-[35px] md:text-[40px] flex justify-center rounded-full'>
           +
         </button>
 
