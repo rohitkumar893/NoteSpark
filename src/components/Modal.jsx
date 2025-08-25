@@ -1,40 +1,16 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './Modal.css'
-
-const Modal = ({ closeModal, onNoteAdded }) => {
+const Modal = ({ closeModal, addNote }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
-    try {
-      const res = await axios.post(
-        "https://notespark-backend.onrender.com/api/note/add",
-        { title, description },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      );
 
-      if (res.data.success) {
-        console.log("Note added successfully!");
-        setTitle("");
-        setDescription("");
-        closeModal();
-        
-        if (onNoteAdded) {
-          onNoteAdded();
-        }
-        
-      }
+    try {
+      await addNote(title, description);   // 🔥 use parent function
+      setTitle("");
+      setDescription("");
     } catch (err) {
       console.error("Error adding note:", err);
       alert("Failed to add note. Please try again.");
@@ -88,5 +64,3 @@ const Modal = ({ closeModal, onNoteAdded }) => {
     </div>
   );
 };
-
-export default Modal;
