@@ -13,7 +13,7 @@ function App() {
   const[notes, setNotes] = useState([])
 
   useEffect(() => {
-    fetch("https://notespark-backend.onrender.com/api/ping")
+    fetch("https://notespark-backend.onrender.com/ping")
       .then(res => res.json())
       .then(data => console.log("Ping response:", data.message))
       .catch(err => console.error("Ping failed:", err));
