@@ -15,7 +15,7 @@ const Modal = ({ closeModal, onNoteAdded }) => {
     
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/note/add",
+        "https://notespark-backend.onrender.com/api/note/add",
         { title, description },
         {
           headers: {

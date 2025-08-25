@@ -21,7 +21,7 @@ function App() {
 
   const fetchNotes = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/api/note", {
+      const { data } = await axios.get("https://notespark-backend.onrender.com/api/note", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       setNotes(data.notes);
@@ -40,7 +40,7 @@ function App() {
   const addNote = async (title, description) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/note/add",
+        "https://notespark-backend.onrender.com/api/note/add",
         { title, description },
         {
           headers: {
@@ -60,7 +60,7 @@ function App() {
     const deleteNote = async (id) => {
       try {
         console.log("Deleting note:", id, "User:", user.id);
-        await axios.delete(`http://localhost:5000/api/note/${id}`, {
+        await axios.delete(`https://notespark-backend.onrender.com/api/note/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         });
 
