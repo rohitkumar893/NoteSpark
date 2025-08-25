@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './App.css'
 import Navbar from './components/Navbar'
 import Modal from './components/Modal'
@@ -6,6 +7,7 @@ import axios from 'axios'
 import { useAuth } from './context/ContextProvider'
 
 function App() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [isModalOpen, setModalOpen] = useState(false)
   const[notes, setNotes] = useState([])
@@ -93,7 +95,10 @@ function App() {
         </div>
 
         <button
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            if (user) setModalOpen(true);
+            else navigate('/login');
+          }}
           className='fixed bg-blue-500 cursor-pointer right-10 bottom-10 w-[50px] h-[60px] md:w-[60px] md:h-[70px] text-white font-semibold text-[35px] md:text-[40px] flex justify-center rounded-full'>
           +
         </button>
