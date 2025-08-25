@@ -1,0 +1,11 @@
+.paddings{
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+@media(max-width:780px){
+    .paddings{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+}
