@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import './Modal.css'
 
 const Modal = ({ closeModal, onNoteAdded }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       const res = await axios.post(
         "https://notespark-backend.onrender.com/api/note/add",
@@ -29,11 +27,10 @@ const Modal = ({ closeModal, onNoteAdded }) => {
         setTitle("");
         setDescription("");
         closeModal();
-        
+
         if (onNoteAdded) {
-          onNoteAdded();
+          onNoteAdded(); // 🔥 fetch notes again from backend
         }
-        
       }
     } catch (err) {
       console.error("Error adding note:", err);

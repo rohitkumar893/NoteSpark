@@ -10,8 +10,9 @@ function App() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [isModalOpen, setModalOpen] = useState(false)
-  const[notes, setNotes] = useState([])
+  const [notes, setNotes] = useState([])
 
+  // keep-alive ping
   useEffect(() => {
     fetch("https://notespark-backend.onrender.com/ping")
       .then((res) => {
@@ -23,13 +24,7 @@ function App() {
       });
   }, []);
 
-
-  useEffect(() => {
-  if (!user) {
-    setNotes([]);
-    return;
-  }
-
+  // reusable fetchNotes function
   const fetchNotes = async () => {
     try {
       const { data } = await axios.get("https://notespark-backend.onrender.com/api/note", {
@@ -39,8 +34,14 @@ function App() {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
+  // fetch notes when user changes
+  useEffect(() => {
+    if (!user) {
+      setNotes([]);
+      return;
+    }
     fetchNotes();
   }, [user]);
 
@@ -48,39 +49,19 @@ function App() {
     setModalOpen(false)
   }
 
-  const addNote = async (title, description) => {
+  const deleteNote = async (id) => {
     try {
-      const res = await axios.post(
-        "https://notespark-backend.onrender.com/api/note/add",
-        { title, description },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      )
-      console.log("Note added:", res.data)
+      console.log("Deleting note:", id, "User:", user.id);
+      await axios.delete(`https://notespark-backend.onrender.com/api/note/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
 
-      setNotes(prev => [...prev, res.data.note])
-      closeModal()
+      setNotes(prev => prev.filter(note => note._id !== id));
+      console.log("Note deleted:", id);
     } catch (err) {
-      console.error("Error adding note:", err)
+      console.error("Error deleting note:", err);
     }
-  }
-
-    const deleteNote = async (id) => {
-      try {
-        console.log("Deleting note:", id, "User:", user.id);
-        await axios.delete(`https://notespark-backend.onrender.com/api/note/${id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-        });
-
-        setNotes(prev => prev.filter(note => note._id !== id));
-        console.log("Note deleted:", id);
-      } catch (err) {
-        console.error("Error deleting note:", err);
-      }
-    };
+  };
 
   return (
     <div className='w-full max-h-screen'>
@@ -91,17 +72,16 @@ function App() {
 
         <div className="notes-list mt-10 w-[80%] flex flex-col gap-[30px]">
           {notes.map(note => (
-            <div key={note._id} className="note-card border border-gray-400 rounded bg-gray-100">
+            <div key={note._id} className="note-card border border-gray-400 rounded bg-gray-100 p-4">
               <h2 className="font-semibold text-[20px]">{note.title}</h2>
               <p>{note.description}</p>
               
               <div className='flex justify-end'>
                 <img src="remove.png" className='h-[22px] cursor-pointer'
-                onClick={() => deleteNote(note._id)} 
+                  onClick={() => deleteNote(note._id)} 
                 />
-                </div>
+              </div>
             </div>
-            
           ))}
         </div>
 
@@ -115,7 +95,7 @@ function App() {
         </button>
 
         {isModalOpen && (
-          <Modal closeModal={closeModal} addNote={addNote} />
+          <Modal closeModal={closeModal} onNoteAdded={fetchNotes} />
         )}
       </div>
     </div>
