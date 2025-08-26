@@ -12,7 +12,6 @@ function App() {
   const [isModalOpen, setModalOpen] = useState(false)
   const [notes, setNotes] = useState([])
 
-  // keep-alive ping
   useEffect(() => {
     fetch("https://notespark-backend.onrender.com/ping")
       .then((res) => {
@@ -24,7 +23,6 @@ function App() {
       });
   }, []);
 
-  // reusable fetchNotes function
   const fetchNotes = async () => {
     try {
       const { data } = await axios.get("https://notespark-backend.onrender.com/api/note", {
@@ -36,7 +34,6 @@ function App() {
     }
   };
 
-  // fetch notes when user changes
   useEffect(() => {
     if (!user) {
       setNotes([]);
