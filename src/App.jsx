@@ -13,7 +13,7 @@ function App() {
   const [notes, setNotes] = useState([])
 
   useEffect(() => {
-    fetch("https://notespark-backend.onrender.com/ping")
+    fetch("https://notespark-backend.onrender.com/newroute")
       .then((res) => {
         if (!res.ok) throw new Error("Ping failed");
         console.log("Backend is awake");
