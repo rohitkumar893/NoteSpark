@@ -22,6 +22,9 @@ const Login = () => {
         login({ name: res.data.user.name, id: res.data.user._id }, res.data.token);
         navigate('/');
     }
+    else{
+      alert(res.data.message)
+    }
     }
     
     catch (err) {
