@@ -30,7 +30,7 @@ const Login = () => {
     
     catch (err) {
         if (err.response && err.response.data && err.response.data.message) {
-        toast.error(err.response.data.message);
+        alert("User does not exist");
       } else {
         alert("User does not exist"); 
       }
