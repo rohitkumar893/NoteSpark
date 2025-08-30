@@ -2,7 +2,8 @@ import { useState } from 'react';
 import './Signup.css';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/ContextProvider';  // make sure this exists!
+import { useAuth } from '../context/ContextProvider';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,12 +24,17 @@ const Login = () => {
         navigate('/');
     }
     else{
-      alert("User does not exists")
+      toast.error(res.data.message)
     }
     }
     
     catch (err) {
-      console.log(err);
+        if (err.response && err.response.data && err.response.data.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error("Something went wrong. Please try again."); 
+      }
+      console.error(err);
     }
   };
 
