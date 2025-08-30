@@ -23,7 +23,7 @@ const Login = () => {
         navigate('/');
     }
     else{
-      alert(res.data.message)
+      alert("User does not exists")
     }
     }
     
