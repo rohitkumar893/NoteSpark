@@ -24,7 +24,7 @@ const Login = () => {
         navigate('/');
     }
     else{
-      toast.error(res.data.message)
+      alert(res.data.message)
     }
     }
     
@@ -32,7 +32,7 @@ const Login = () => {
         if (err.response && err.response.data && err.response.data.message) {
         toast.error(err.response.data.message);
       } else {
-        toast.error("Something went wrong. Please try again."); 
+        alert("User does not exist"); 
       }
       console.error(err);
     }
